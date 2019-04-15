@@ -15,8 +15,6 @@
 #define CAMERAH
 #include "ray.h"
 
-//what the HECK where are my constants and random functions at
-#define drand48() ((double)rand()/RAND_MAX)
 
 vec3 random_in_unit_disk() {
     vec3 p;
@@ -55,7 +53,3 @@ class camera {
         float lens_radius;
 };
 #endif
-
-
-
-

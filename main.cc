@@ -12,22 +12,16 @@
 //==================================================================================================
 
 #include <iostream>
+#include "main.h"
 #include "sphere.h"
 #include "hitable_list.h"
 #include "float.h"
 #include "camera.h"
 #include "material.h"
 
-//what the HECK where are my constants and random functions at - those had to be re-defined for windows
-#define M_PI 3.14159265358979323846264338327950288
-#define srand48(x) srand((int)(x))
-#define drand48() ((double)rand()/RAND_MAX)
-
-
-
 vec3 color(const ray& r, hitable *world, int depth) {
     hit_record rec;
-    if (world->hit(r, 0.001, FLT_MAX, rec)) { // was MAXFLOAT originally, had to replace with FLT_MAX
+    if (world->hit(r, 0.001, MAXFLOAT, rec)) {
         ray scattered;
         vec3 attenuation;
         if (depth < 50 && rec.mat_ptr->scatter(r, rec, attenuation, scattered)) {
@@ -131,6 +125,3 @@ int main( int argc, char *argv[] ) {
         }
     }
 }
-
-
-

@@ -8,8 +8,7 @@ laid in the _Ray Tracing in One Weekend_ book by Peter Shirley.
 The _Ray Tracing in One Weekend_ series of books are now available to the public for free in PDF
 form, along with the accompanying source code. Releases are available [directly from GitHub], or
 from Eric Haine's [Real-Time Rendering] site. Alternatively, you can purchase the Kindle version of
-this series from [Amazon.com]. Half of the proceeds of these sales go to [Hack the Hood], a really
-neat organization.
+this series from [Amazon.com].
 
 [Amazon.com]:           https://amazon.com/dp/B01B5AODD8
 [directly from GitHub]:     https://github.com/petershirley/raytracinginoneweekend/releases/
