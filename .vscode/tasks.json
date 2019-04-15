@@ -1,0 +1,37 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build current file",
+            "type": "shell",
+
+            "windows":{
+                "command": "C:/Program Files/MinGW/bin/g++.exe",
+                "args": ["-o", "${workspaceFolder}/bin/test.exe", "-g", "${file}"]
+            },
+            "linux": {
+                "command": "/usr/bin/g++",
+                "args": ["-o", "${workspaceFolder}/bin/test", "-g", "${file}"]
+            },
+
+            "group": {"kind": "build", "isDefault": true}
+        },
+        {
+            "label": "Build main",
+            "type": "shell",
+
+            "windows":{
+                "command": "C:/Program Files/MinGW/bin/g++.exe",
+                "args": ["-o", "${workspaceFolder}/bin/main.exe", "-g", "${file}"]
+            },
+            "linux": {
+                "command": "/usr/bin/g++",
+                "args": ["-o", "${workspaceFolder}/bin/main", "-g", "${file}"]
+            },
+
+            "group": "build"
+        }
+    ]
+}

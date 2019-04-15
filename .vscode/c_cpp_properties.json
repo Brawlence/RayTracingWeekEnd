@@ -1,0 +1,40 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "C:/Program Files/MinGW/bin/g++.exe",
+            "intelliSenseMode": "msvc-x64",
+            "browse": {"path": [
+                "${workspaceFolder}"
+                ],"limitSymbolsToIncludedHeaders": true,
+            "databaseFilename": ""}
+        },
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "usr/bin/g++",
+            "intelliSenseMode": "gcc-x64",
+            "browse": {"path": [
+                "${workspaceFolder}"
+                ],"limitSymbolsToIncludedHeaders": true,
+            "databaseFilename": ""}
+        
+        }
+    ],
+    "version": 4
+}
