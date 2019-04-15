@@ -1,5 +1,7 @@
 //==================================================================================================
-// Written in 2016 by Peter Shirley <ptrshrl@gmail.com>
+// Originally written in 2016 by Peter Shirley <ptrshrl@gmail.com>
+//
+// Modified in 2019 by Brawlence
 //
 // To the extent possible under law, the author(s) have dedicated all copyright and related and
 // neighboring rights to this software to the public domain worldwide. This software is distributed
@@ -12,6 +14,9 @@
 #ifndef CAMERAH
 #define CAMERAH
 #include "ray.h"
+
+//what the HECK where are my constants and random functions at
+#define drand48() ((double)rand()/RAND_MAX)
 
 vec3 random_in_unit_disk() {
     vec3 p;

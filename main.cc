@@ -1,5 +1,7 @@
 //==================================================================================================
-// Written in 2016 by Peter Shirley <ptrshrl@gmail.com>
+// Originally written in 2016 by Peter Shirley <ptrshrl@gmail.com>
+//
+// Modified in 2019 by Brawlence
 //
 // To the extent possible under law, the author(s) have dedicated all copyright and related and
 // neighboring rights to this software to the public domain worldwide. This software is distributed
@@ -16,10 +18,16 @@
 #include "camera.h"
 #include "material.h"
 
+//what the HECK where are my constants and random functions at - those had to be re-defined for windows
+#define M_PI 3.14159265358979323846264338327950288
+#define srand48(x) srand((int)(x))
+#define drand48() ((double)rand()/RAND_MAX)
+
+
 
 vec3 color(const ray& r, hitable *world, int depth) {
     hit_record rec;
-    if (world->hit(r, 0.001, MAXFLOAT, rec)) { 
+    if (world->hit(r, 0.001, FLT_MAX, rec)) { // was MAXFLOAT originally, had to replace with FLT_MAX
         ray scattered;
         vec3 attenuation;
         if (depth < 50 && rec.mat_ptr->scatter(r, rec, attenuation, scattered)) {
@@ -68,11 +76,27 @@ hitable *random_scene() {
     return new hitable_list(list,i);
 }
 
-int main() {
-    int nx = 1200;
-    int ny = 800;
+int main( int argc, char *argv[] ) {
+
+    // default values
+    int nx = 640;
+    int ny = 480;
     int ns = 10;
+
+    //default vectors and parameters
+    vec3 lookfrom(15,3,2);
+    vec3 lookat(0,0,0);
+    float dist_to_focus = 10.0;
+    float aperture = 0.15;
+
+    if (argc > 0) { // TODO: parse command line arguments for custom values
+
+    }
+
+    // output the header: P3 means that the colours are represented in ASCII, 
+    // nx colums, ny rows ; the maximum possible value for a chanell is 255
     std::cout << "P3\n" << nx << " " << ny << "\n255\n";
+
     hitable *list[5];
     float R = cos(M_PI/4);
     list[0] = new sphere(vec3(0,0,-1), 0.5, new lambertian(vec3(0.1, 0.2, 0.5)));
@@ -83,11 +107,7 @@ int main() {
     hitable *world = new hitable_list(list,5);
     world = random_scene();
 
-    vec3 lookfrom(13,2,3);
-    vec3 lookat(0,0,0);
-    float dist_to_focus = 10.0;
-    float aperture = 0.1;
-
+    // the camera properties
     camera cam(lookfrom, lookat, vec3(0,1,0), 20, float(nx)/float(ny), aperture, dist_to_focus);
 
     for (int j = ny-1; j >= 0; j--) {
@@ -105,6 +125,8 @@ int main() {
             int ir = int(255.99*col[0]); 
             int ig = int(255.99*col[1]); 
             int ib = int(255.99*col[2]); 
+            
+            // triplet writing
             std::cout << ir << " " << ig << " " << ib << "\n";
         }
     }

@@ -9,11 +9,11 @@
 
             "windows":{
                 "command": "C:/Program Files/MinGW/bin/g++.exe",
-                "args": ["-o", "${workspaceFolder}/bin/test.exe", "-g", "${file}"]
+                "args": ["-o", "${workspaceFolder}/test.exe", "-g", "${file}"]
             },
             "linux": {
                 "command": "/usr/bin/g++",
-                "args": ["-o", "${workspaceFolder}/bin/test", "-g", "${file}"]
+                "args": ["-o", "${workspaceFolder}/test", "-g", "${file}"]
             },
 
             "group": {"kind": "build", "isDefault": true}
@@ -24,11 +24,11 @@
 
             "windows":{
                 "command": "C:/Program Files/MinGW/bin/g++.exe",
-                "args": ["-o", "${workspaceFolder}/bin/main.exe", "-g", "${file}"]
+                "args": ["-o", "${workspaceFolder}/main.exe", "-g", "${file}"]
             },
             "linux": {
                 "command": "/usr/bin/g++",
-                "args": ["-o", "${workspaceFolder}/bin/main", "-g", "${file}"]
+                "args": ["-o", "${workspaceFolder}/main", "-g", "${file}"]
             },
 
             "group": "build"

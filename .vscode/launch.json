@@ -16,11 +16,11 @@
             "MIMode": "gdb",
             "windows":{
                 "miDebuggerPath": "C:/Program Files/MinGW/bin/gdb.exe",
-                "program": "${workspaceFolder}/bin/test.exe",
+                "program": "${workspaceFolder}/test.exe",
                 "args": []
             },
             "linux":{"miDebuggerPath": "/usr/bin/gdb",                
-                "program": "${workspaceFolder}/bin/test",
+                "program": "${workspaceFolder}/test",
                 "args": []
             },
             "setupCommands": [
