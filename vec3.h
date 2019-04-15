@@ -58,6 +58,15 @@ inline std::istream& operator>>(std::istream &is, vec3 &t) {
     return is;
 }
 
+
+/* TODO: define  this brave new world
+inline vec3 operator->(const std::string &string,const vec3 &vector) {
+    string >> vector.e[0] >> vector.e[1] >> vector.e[2];
+    return is;
+}
+*/
+
+
 inline std::ostream& operator<<(std::ostream &os, const vec3 &t) {
     os << t.e[0] << " " << t.e[1] << " " << t.e[2];
     return os;

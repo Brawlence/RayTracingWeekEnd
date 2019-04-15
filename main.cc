@@ -11,15 +11,18 @@
 // with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 //==================================================================================================
 
-#include <iostream>
+#include <iostream> // std::cout
 #include <fstream>  //TODO: eventually write into a JPG / PNG, not PPM
-#include "stdlib.h" //for clearing the screen while progressbar is typed
+#include <string>   // argv parsing - std::string
+#include <sstream> //  string stream
+//#include "stdlib.h" //TODO: for clearing the screen while progressbar is typed
 #include "main.h"
 #include "sphere.h"
 #include "hitable_list.h"
 #include "float.h"
 #include "camera.h"
 #include "material.h"
+
 
 vec3 color(const ray& r, hitable *world, int depth) {
     hit_record rec;
@@ -74,31 +77,76 @@ hitable *random_scene() {
 
 int main( int argc, char *argv[] ) {
 
-    // default values
+    // default values of Width, Height and Sample rays per pixel (antialiasing)
     int nx = 640;
     int ny = 480;
-    int ns = 10;
+    int ns = 3;
 
     float progress = 0.0;
-
-    //default vectors and parameters
+    std::string nameOfOutput="1.ppm";
+    //default Camera vectors and parameters
     vec3 lookfrom(15,3,2);
     vec3 lookat(0,0,0);
     float dist_to_focus = 10.0;
-    float aperture = 0.15;
+    float aperture = 0.05;
 
-    if (argc > 0) { // TODO: parse command line arguments for custom values
+    if (argc > 0) { // TODO: remake this ugly code
+    /*       for (int i = 1; i < argc; i++){
+            std::string temp(argv[i]);
+            if ( ( (temp.find("-o")) || (temp.find("-output")) )
+                 && (argv[i+1]!=NULL)) {
 
+                std::string nextarg(argv[++i]);
+                nameOfOutput=nextarg;
+            };
+            if ( ( (temp.find("-h")) || (temp.find("-height")) ) 
+                 && (argv[i+1]!=NULL)) {
+
+                std::string nextarg(argv[++i]);
+                ny=std::stoi(nextarg);
+            };
+            if ( ( (temp.find("-w")) || (temp.find("-width")) ) 
+                 && (argv[i+1]!=NULL)) {
+
+                std::string nextarg(argv[++i]);   
+                nx=std::stoi(nextarg);
+            };
+            if ( ( (temp.find("-s")) || (temp.find("-samples")) )
+                 && (argv[i+1]!=NULL)) {
+
+                std::string nextarg(argv[++i]);     
+                ns=std::stoi(nextarg);
+            };
+            if ( ( (temp.find("-lf")) || (temp.find("-lookfrom")) )
+                && (argv[i+3]!=NULL)) {
+
+            };
+            if ( ( (temp.find("-la")) || (temp.find("-lookat")) )
+                && (argv[i+3]!=NULL)) {
+
+            };
+            if ( (temp.find("-fd")) || (temp.find("-focus")) 
+                 && (argv[i+1]!=NULL)) {
+                std::string nextarg(argv[i++]);
+                aperture=std::stof(nextarg);
+            };
+            if ( (temp.find("-ap")) || (temp.find("-aperture"))
+                 && (argv[i+1]!=NULL)) {
+                std::string nextarg(argv[i++]); 
+                aperture=std::stof(nextarg);
+            };
+        };
+    */
     };
 
-    std::cout << "Rendering with the following parameters:\n\nWidth: " << nx << " Height:" << ny << ", Ns:" << ns
+    std::cout << "Rendering with the following parameters:\n\nWidth: " << nx << " Height:" << ny << ", Samples per pixel:" << ns
         << ";\n\nCamera position: " << lookfrom << ", Target position: " << lookat 
         << ";\n\nFocus distance: " << dist_to_focus << ", Aperture: " << aperture << std::endl;
 
     std::ofstream outputFile;
-    outputFile.open("1.ppm", std::ios::out | std::ios::trunc);
+    outputFile.open(nameOfOutput, std::ios::out | std::ios::trunc);
 
-    std::cout << "\nFile opened. Target file size: " << (16 + nx * ny * 13) << " bytes." << std::endl;
+    std::cout << "\nFile" << nameOfOutput << "is successfully opened. Target file size: " << (16 + nx * ny * 13) << " bytes." << std::endl;
 
     // output the header: P3 means that the colours are represented in ASCII, 
     // nx colums, ny rows ; the maximum possible value for a chanell is 255
@@ -134,11 +182,11 @@ int main( int argc, char *argv[] ) {
             int ib = int(255.99*col[2]); 
             
             // triplet writing
-            //outputFile << ir << " " << ig << " " << ib << "\n";
+            outputFile << ir << " " << ig << " " << ib << "\n";
         }
         progress = float(ny-j) / float(ny);
         if ( int(progress*1000)%100 < 1 ) { 
-            //TODO: make an additions *.h file for this
+            //TODO: make an additional *.h file for this
             //std::cout << "[__________________________________________________]\n";
             //std::cout <<"\b\b+]";
             std::cout << int(progress*100) << "% ... ";

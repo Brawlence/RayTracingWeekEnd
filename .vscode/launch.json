@@ -5,7 +5,34 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug this",
+            "name": "Debug main with argc, argv",
+            "type": "cppdbg",
+            "request": "launch",
+            "preLaunchTask": "Build main",
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "windows":{
+                "miDebuggerPath": "C:/Program Files/MinGW/bin/gdb.exe",
+                "program": "${workspaceFolder}/main.exe",
+                "args": ["-o", "keikaku.ppm", "-h", "100", "-w", "100", "-s", "1", "-ap","0.05"]
+            },
+            "linux":{"miDebuggerPath": "/usr/bin/gdb",                
+                "program": "${workspaceFolder}/main",
+                "args": ["-o", "keikaku.ppm", "-h", "100", "-w", "100", "-s", "1", "-ap","0.05"]
+            },
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Debug main",
             "type": "cppdbg",
             "request": "launch",
             "preLaunchTask": "Build main",
