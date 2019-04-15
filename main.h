@@ -16,11 +16,11 @@
     #define M_PI 3.14159265358979323846264338327950288
 #endif
 
-#ifndef srand48(x)
+#ifndef srand48
     #define srand48(x) srand((int)(x))
 #endif
 
-#ifndef drand48(x)
+#ifndef drand48
     #define drand48() ((double)rand()/RAND_MAX)
 #endif
 

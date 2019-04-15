@@ -12,6 +12,8 @@
 //==================================================================================================
 
 #include <iostream>
+#include <fstream>  //TODO: eventually write into a JPG / PNG, not PPM
+#include "stdlib.h" //for clearing the screen while progressbar is typed
 #include "main.h"
 #include "sphere.h"
 #include "hitable_list.h"
@@ -77,6 +79,8 @@ int main( int argc, char *argv[] ) {
     int ny = 480;
     int ns = 10;
 
+    float progress = 0.0;
+
     //default vectors and parameters
     vec3 lookfrom(15,3,2);
     vec3 lookat(0,0,0);
@@ -85,11 +89,20 @@ int main( int argc, char *argv[] ) {
 
     if (argc > 0) { // TODO: parse command line arguments for custom values
 
-    }
+    };
+
+    std::cout << "Rendering with the following parameters:\n\nWidth: " << nx << " Height:" << ny << ", Ns:" << ns
+        << ";\n\nCamera position: " << lookfrom << ", Target position: " << lookat 
+        << ";\n\nFocus distance: " << dist_to_focus << ", Aperture: " << aperture << std::endl;
+
+    std::ofstream outputFile;
+    outputFile.open("1.ppm", std::ios::out | std::ios::trunc);
+
+    std::cout << "\nFile opened. Target file size: " << (16 + nx * ny * 13) << " bytes." << std::endl;
 
     // output the header: P3 means that the colours are represented in ASCII, 
     // nx colums, ny rows ; the maximum possible value for a chanell is 255
-    std::cout << "P3\n" << nx << " " << ny << "\n255\n";
+    outputFile << "P3\n" << nx << " " << ny << "\n255\n";
 
     hitable *list[5];
     float R = cos(M_PI/4);
@@ -121,7 +134,18 @@ int main( int argc, char *argv[] ) {
             int ib = int(255.99*col[2]); 
             
             // triplet writing
-            std::cout << ir << " " << ig << " " << ib << "\n";
+            //outputFile << ir << " " << ig << " " << ib << "\n";
         }
-    }
+        progress = float(ny-j) / float(ny);
+        if ( int(progress*1000)%100 < 1 ) { 
+            //TODO: make an additions *.h file for this
+            //std::cout << "[__________________________________________________]\n";
+            //std::cout <<"\b\b+]";
+            std::cout << int(progress*100) << "% ... ";
+        };    
+    };
+
+    outputFile.close();
+
+    return 0;
 }

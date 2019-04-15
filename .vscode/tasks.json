@@ -16,7 +16,7 @@
                 "args": ["-o", "${workspaceFolder}/test", "-g", "${file}"]
             },
 
-            "group": {"kind": "build", "isDefault": true}
+            "group": "build"
         },
         {
             "label": "Build main",
@@ -24,14 +24,14 @@
 
             "windows":{
                 "command": "C:/Program Files/MinGW/bin/g++.exe",
-                "args": ["-o", "${workspaceFolder}/main.exe", "-g", "${file}"]
+                "args": ["-o", "${workspaceFolder}/main.exe", "-g", "main.cc"]
             },
             "linux": {
                 "command": "/usr/bin/g++",
-                "args": ["-o", "${workspaceFolder}/main", "-g", "${file}"]
+                "args": ["-o", "${workspaceFolder}/main", "-g", "main.cc"]
             },
 
-            "group": "build"
+            "group": {"kind": "build", "isDefault": true}
         }
     ]
 }

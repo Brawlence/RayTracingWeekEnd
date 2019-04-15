@@ -1,4 +1,6 @@
 .vscode/ipch/*
 test.exe
+main.exe
 test
+main
 *.ppm
