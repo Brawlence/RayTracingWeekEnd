@@ -5,13 +5,13 @@ This is a project dedicated to learning the basics of C-based raytracing followi
 laid in the _Ray Tracing in One Weekend_ book by Peter Shirley.
 
 Currently it supports animations with variable camera positions:
-![Variable position](./out_proc.webm)
+![Variable position](./animation/out_proc.webm)
 
 Variable focus:
-![Variable focus](./variable_focus.webm)
+![Variable focus](./animation/variable_focus.webm)
 
 And variable aperture:
-![Variable aperture](./variable_aperture.webm)
+![Variable aperture](./animation/variable_aperture.webm)
 
 ## The source code and the Book
 The _Ray Tracing in One Weekend_ series of books are now available to the public for free in PDF
