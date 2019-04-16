@@ -1,4 +1,4 @@
-main -h 240 -w 320 -s 4 --animate 1 --anim_position_start "15 5 2" --anim_position_end "15 5 2" --anim_steps 20 --anim_aperture_start 0.15 --anim_aperture_end 0.15 --anim_focus_start 5.0 --anim_focus_end 25.0
+main -h 240 -w 320 -s 4 --animate 1 --anim_position_start "15 5 2" --anim_position_end "15 5 2" --anim_steps 20 --anim_aperture_start 0.05 --anim_aperture_end 0.25 --anim_focus_start 10 --anim_focus_end 10
 
 echo Do compile those?
 pause
