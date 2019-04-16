@@ -23,6 +23,8 @@
 #include "camera.h"
 #include "material.h"
 
+#include "CLI11.hpp"
+
 
 vec3 color(const ray& r, hitable *world, int depth) {
     hit_record rec;
@@ -75,92 +77,22 @@ hitable *random_scene() {
     return new hitable_list(list,i);
 }
 
-int main( int argc, char *argv[] ) {
-
-    // default values of Width, Height and Sample rays per pixel (antialiasing)
-    int nx = 640;
-    int ny = 480;
-    int ns = 3;
-
+// this will be used for each frame of an animation animation
+void render (hitable *world,std::string nameOfOutput, int nx, int ny, int ns, vec3 lookfrom, vec3 lookat, float dist_to_focus, float aperture){
     float progress = 0.0;
-    std::string nameOfOutput="1.ppm";
-    //default Camera vectors and parameters
-    vec3 lookfrom(15,3,2);
-    vec3 lookat(0,0,0);
-    float dist_to_focus = 10.0;
-    float aperture = 0.05;
 
-    if (argc > 0) { // TODO: remake this ugly code
-    /*       for (int i = 1; i < argc; i++){
-            std::string temp(argv[i]);
-            if ( ( (temp.find("-o")) || (temp.find("-output")) )
-                 && (argv[i+1]!=NULL)) {
-
-                std::string nextarg(argv[++i]);
-                nameOfOutput=nextarg;
-            };
-            if ( ( (temp.find("-h")) || (temp.find("-height")) ) 
-                 && (argv[i+1]!=NULL)) {
-
-                std::string nextarg(argv[++i]);
-                ny=std::stoi(nextarg);
-            };
-            if ( ( (temp.find("-w")) || (temp.find("-width")) ) 
-                 && (argv[i+1]!=NULL)) {
-
-                std::string nextarg(argv[++i]);   
-                nx=std::stoi(nextarg);
-            };
-            if ( ( (temp.find("-s")) || (temp.find("-samples")) )
-                 && (argv[i+1]!=NULL)) {
-
-                std::string nextarg(argv[++i]);     
-                ns=std::stoi(nextarg);
-            };
-            if ( ( (temp.find("-lf")) || (temp.find("-lookfrom")) )
-                && (argv[i+3]!=NULL)) {
-
-            };
-            if ( ( (temp.find("-la")) || (temp.find("-lookat")) )
-                && (argv[i+3]!=NULL)) {
-
-            };
-            if ( (temp.find("-fd")) || (temp.find("-focus")) 
-                 && (argv[i+1]!=NULL)) {
-                std::string nextarg(argv[i++]);
-                aperture=std::stof(nextarg);
-            };
-            if ( (temp.find("-ap")) || (temp.find("-aperture"))
-                 && (argv[i+1]!=NULL)) {
-                std::string nextarg(argv[i++]); 
-                aperture=std::stof(nextarg);
-            };
-        };
-    */
-    };
-
-    std::cout << "Rendering with the following parameters:\n\nWidth: " << nx << " Height:" << ny << ", Samples per pixel:" << ns
-        << ";\n\nCamera position: " << lookfrom << ", Target position: " << lookat 
-        << ";\n\nFocus distance: " << dist_to_focus << ", Aperture: " << aperture << std::endl;
+    std::cout << "Rendering with the following parameters:\n\nWidth: " << nx << " Height: " << ny << ", Samples per pixel: " << ns
+        << "\n\nCamera position: " << lookfrom << ", Target position: " << lookat 
+        << "\n\nFocus distance: " << dist_to_focus << ", Aperture: " << aperture << std::endl;
 
     std::ofstream outputFile;
     outputFile.open(nameOfOutput, std::ios::out | std::ios::trunc);
 
-    std::cout << "\nFile" << nameOfOutput << "is successfully opened. Target file size: " << (16 + nx * ny * 13) << " bytes." << std::endl;
+    std::cout << "\nFile " << nameOfOutput << " opened. Target size: " << (16 + nx * ny * 13) << " bytes." << std::endl;
 
     // output the header: P3 means that the colours are represented in ASCII, 
     // nx colums, ny rows ; the maximum possible value for a chanell is 255
     outputFile << "P3\n" << nx << " " << ny << "\n255\n";
-
-    hitable *list[5];
-    float R = cos(M_PI/4);
-    list[0] = new sphere(vec3(0,0,-1), 0.5, new lambertian(vec3(0.1, 0.2, 0.5)));
-    list[1] = new sphere(vec3(0,-100.5,-1), 100, new lambertian(vec3(0.8, 0.8, 0.0)));
-    list[2] = new sphere(vec3(1,0,-1), 0.5, new metal(vec3(0.8, 0.6, 0.2), 0.0));
-    list[3] = new sphere(vec3(-1,0,-1), 0.5, new dielectric(1.5));
-    list[4] = new sphere(vec3(-1,0,-1), -0.45, new dielectric(1.5));
-    hitable *world = new hitable_list(list,5);
-    world = random_scene();
 
     // the camera properties
     camera cam(lookfrom, lookat, vec3(0,1,0), 20, float(nx)/float(ny), aperture, dist_to_focus);
@@ -192,8 +124,86 @@ int main( int argc, char *argv[] ) {
             std::cout << int(progress*100) << "% ... ";
         };    
     };
-
+    std::cout << std::endl;
     outputFile.close();
+}
+
+
+int main( int argc, char *argv[] ) {
+
+    CLI::App app("Ray-tracer renderer");
+
+    // default values of Width, Height and Sample rays per pixel (antialiasing)
+    int nx = 640;
+    int ny = 480;
+    int ns = 3;
+    
+    std::string nameOfOutput="1.ppm";
+
+    //default Camera vectors and parameters
+    vec3 lookfrom(15,3,2);
+    vec3 lookat(0,0,0);
+    float dist_to_focus = 10.0;
+    float aperture = 0.05;
+
+    //for use in generating animations
+    bool animation = false;
+    vec3 anim_position_start;
+    vec3 anim_position_end;
+    float anim_focus_start;
+    float anim_focus_end;
+    float anim_aperture_start;
+    float anim_aperture_end;
+    int anim_steps;
+
+    app.add_option("-o,--output", nameOfOutput, "The output file name");
+    app.add_option("-h,--height", ny, "The height of the output picture");
+    app.add_option("-w,--width", nx, "The width of the output picture");
+    app.add_option("-s,--samples", ns, "The amount of samples to take for a given pixel");
+    app.add_option("-C,--lookfrom", lookfrom, "Camera position relative to the world");
+    app.add_option("-T,--lookat", lookat, "Target which the camera is pointed at");
+    app.add_option("-F,--focus", dist_to_focus, "Focus distance of the camera");
+    app.add_option("-A,--aperture", aperture, "Aperture size of the camera");
+    
+    app.add_option("--animate", animation, "Well, if you need to make a clip");
+    app.add_option("--anim_position_start", anim_position_start, "Camera position at the start of animation");    
+    app.add_option("--anim_position_end", anim_position_end, "Camera position at the end of animation");
+    app.add_option("--anim_focus_start", anim_focus_start, "Camera focus at the start of animation");    
+    app.add_option("--anim_focus_end", anim_focus_end, "Camera focus at the end of animation");
+    app.add_option("--anim_aperture_start", anim_aperture_start, "Camera focus at the start of animation");    
+    app.add_option("--anim_aperture_end", anim_aperture_end, "Camera focus at the end of animation");
+    
+    app.add_option("--anim_steps", anim_steps, "The amount of steps taken");
+    
+    CLI11_PARSE(app, argc, argv);
+    
+    //create world
+    hitable *list[5];
+    float R = cos(M_PI/4);
+    list[0] = new sphere(vec3(0,0,-1), 0.5, new lambertian(vec3(0.1, 0.2, 0.5)));
+    list[1] = new sphere(vec3(0,-100.5,-1), 100, new lambertian(vec3(0.8, 0.8, 0.0)));
+    list[2] = new sphere(vec3(1,0,-1), 0.5, new metal(vec3(0.8, 0.6, 0.2), 0.0));
+    list[3] = new sphere(vec3(-1,0,-1), 0.5, new dielectric(1.5));
+    list[4] = new sphere(vec3(-1,0,-1), -0.45, new dielectric(1.5));
+    
+    hitable *world = new hitable_list(list,5);
+
+    world = random_scene();
+
+    
+
+    if (!animation) { render(world,nameOfOutput,nx,ny,ns,lookfrom,lookat,dist_to_focus,aperture); } else {
+        for (int i = 0; i <= anim_steps; i++){
+            std::cout << "Frame " << i << "... " << std::endl; 
+            nameOfOutput = "animation\\out_" + std::to_string(i) + ".ppm";
+            float coeff = float(i)/float(anim_steps);
+            vec3 current_post = anim_position_start * (1 - coeff) + anim_position_end * coeff;
+            float current_focus = anim_focus_start * (1 - coeff) + anim_focus_end * coeff;
+            float current_aperture = anim_aperture_start * (1 - coeff) + anim_aperture_end * coeff;
+            render(world,nameOfOutput,nx,ny,ns,current_post,lookat,current_focus,current_aperture);
+        } 
+    }
+
 
     return 0;
 }
