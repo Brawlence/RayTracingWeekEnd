@@ -24,6 +24,7 @@
 #include "material.h"
 
 #include "CLI11.hpp"
+#include "Progressbar.h"
 
 
 vec3 color(const ray& r, hitable *world, int depth) {
@@ -119,9 +120,8 @@ void render (hitable *world,std::string nameOfOutput, int nx, int ny, int ns, ve
         progress = float(ny-j) / float(ny);
         if ( int(progress*1000)%100 < 1 ) { 
             //TODO: make an additional *.h file for this
-            //std::cout << "[__________________________________________________]\n";
-            //std::cout <<"\b\b+]";
-            std::cout << int(progress*100) << "% ... ";
+            progressBar(int (progress*10));
+            //std::cout << int(progress*100) << "% ... ";
         };    
     };
     std::cout << std::endl;
