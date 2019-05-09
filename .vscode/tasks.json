@@ -8,12 +8,19 @@
             "type": "shell",
 
             "windows":{
-                "command": "C:/Program Files/MinGW/bin/g++.exe",
-                "args": ["-o", "${workspaceFolder}/test.exe", "-g", "${file}"]
+                "options": {
+                    "cwd": "C:/msys2/mingw64/bin/",
+                    //"shell": {
+                    //      "executable": "C:/msys2/mingw64.exe",
+                    ////      "args": ["/d", "/c"]   // - windws CMD args, don't use for mingw64
+                    //},
+                },
+                "command": "g++.exe",
+                "args": ["-g", "\"${file}\"", "-o", "\"${workspaceFolder}\\test.exe\""]
             },
             "linux": {
                 "command": "/usr/bin/g++",
-                "args": ["-o", "${workspaceFolder}/test", "-g", "${file}"]
+                "args": ["-g", "'${workspaceFolder}/${file}'", "-o", "'${workspaceFolder}/test'"]
             },
 
             "group": "build"
@@ -23,12 +30,19 @@
             "type": "shell",
 
             "windows":{
-                "command": "C:/Program Files/MinGW/bin/g++.exe",
-                "args": ["-o", "${workspaceFolder}/main.exe", "-g", "main.cc"]
+                "options": {
+                    "cwd": "C:/msys2/mingw64/bin/",
+                    //"shell": {
+                    //      "executable": "C:/msys2/mingw64.exe",
+                    ////      "args": ["/d", "/c"]   // - windws CMD args, don't use for mingw64
+                    //},
+                },
+                "command": "g++.exe",
+                "args": ["-g", "\"${workspaceFolder}\\main.cc\"", "-o", "\"${workspaceFolder}\\main.exe\""]
             },
             "linux": {
                 "command": "/usr/bin/g++",
-                "args": ["-o", "${workspaceFolder}/main", "-g", "main.cc"]
+                "args": ["-g", "'${workspaceFolder}/main.cc'", "-o", "'${workspaceFolder}/main'"]
             },
 
             "group": {"kind": "build", "isDefault": true}
