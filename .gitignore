@@ -30,3 +30,8 @@
 *.exe
 *.out
 *.app
+
+# Repo-specific
+.vscode/ipch/*
+*.ppm
+main

@@ -1,0 +1,56 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "echo",
+            "type": "shell",
+            "command": "echo ${workspaceFolder}"
+        },
+        {
+            "label": "Build main",
+            "type": "shell",
+
+            "windows":{
+                "options": {
+                    "cwd": "C:/msys2/mingw64/bin/",
+                    //"shell": {
+                    //      "executable": "C:/msys2/mingw64.exe",
+                    ////      "args": ["/d", "/c"]   // - windws CMD args, don't use for mingw64
+                    //},
+                },
+                "command": "g++.exe",
+                "args": ["-g", "\"${workspaceFolder}\\main.cpp\"", "-lsfml-graphics", "-lsfml-window", "-lsfml-system", "-DFMT_HEADER_ONLY", "-o", "\"${workspaceFolder}\\main.exe\""]
+            },
+            "linux": {
+                "command": "/usr/bin/g++",
+                "args": ["-g", "'${workspaceFolder}/main.cpp'", "-lsfml-graphics", "-lsfml-window", "-lsfml-system", "-DFMT_HEADER_ONLY", "-o", "'${workspaceFolder}/main'"]
+            },
+
+            "group": {"kind": "build", "isDefault": true}
+        },
+        {
+            "label": "Build main (release)",
+            "type": "shell",
+
+            "windows":{
+                "options": {
+                    "cwd": "C:/msys2/mingw64/bin/",
+                    //"shell": {
+                    //      "executable": "C:/msys2/mingw64.exe",
+                    ////      "args": ["/d", "/c"]   // - windws CMD args, don't use for mingw64
+                    //},
+                },
+                "command": "g++.exe",
+                "args": ["-g", "\"${workspaceFolder}\\main.cpp\"", "-lsfml-graphics", "-lsfml-window", "-lsfml-system", "-DFMT_HEADER_ONLY", "-O3", "-o", "\"${workspaceFolder}\\main.exe\""]
+            },
+            "linux": {
+                "command": "/usr/bin/g++",
+                "args": ["-g", "'${workspaceFolder}/main.cpp'", "-lsfml-graphics", "-lsfml-window", "-lsfml-system", "-DFMT_HEADER_ONLY", "-O3", "-o", "'${workspaceFolder}/main'"]
+            },
+
+            "group": "build"
+        }
+    ]
+}

@@ -1,0 +1,62 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug main",
+            "type": "cppdbg",
+            "request": "launch",
+            "preLaunchTask": "Build main",
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "windows":{
+                "miDebuggerPath": "C:/msys2/mingw64/bin/gdb.exe",
+                "program": "${workspaceFolder}/main.exe",
+                "args": []
+            },
+            "linux":{"miDebuggerPath": "/usr/bin/gdb",                
+                "program": "${workspaceFolder}/main",
+                "args": []
+            },
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Debug main with argc, argv",
+            "type": "cppdbg",
+            "request": "launch",
+            "preLaunchTask": "Build main",
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "windows":{
+                "miDebuggerPath": "C:/msys2/mingw64/bin/gdb.exe",
+                "program": "${workspaceFolder}/main.exe",
+                "args": ["-o", "keikaku.ppm", "-h", "100", "-w", "100"]
+            },
+            "linux":{"miDebuggerPath": "/usr/bin/gdb",                
+                "program": "${workspaceFolder}/main",
+                "args": ["-o", "keikaku.ppm", "-h", "100", "-w", "100"]
+            },
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        }
+    ]
+}
