@@ -3,7 +3,7 @@
 This is a project dedicated to learning the basics of C-based raytracing following the footsteps
 laid in the _Ray Tracing in One Weekend_ book by Peter Shirley.
 
-Command-line flags are parsed via CLI11, standart output is done with FMT and openGL rendering is provided by SFML.
+Command-line flags are parsed via [CLI11], openGL rendering is done by [SFML], standart output is provided by [FMT].
 
 ## Dependencies
 
@@ -17,7 +17,10 @@ form, along with the accompanying source code. Releases are available [directly 
 from Eric Haine's [Real-Time Rendering] site. Alternatively, you can purchase the Kindle version of
 this series from [Amazon.com].
 
+[CLI11]: https://github.com/CLIUtils/CLI11
+[SFML]: https://www.sfml-dev.org/
+[FMT]: https://fmt.dev
+
 [Amazon.com]:           https://amazon.com/dp/B01B5AODD8
 [directly from GitHub]: https://github.com/petershirley/raytracinginoneweekend/releases/
 [Real-Time Rendering]:  http://www.realtimerendering.com/#books-small-table
-https://fmt.dev
