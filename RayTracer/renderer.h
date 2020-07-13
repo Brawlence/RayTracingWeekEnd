@@ -6,23 +6,45 @@
 #include <fmt/format.h>			
 #include <fmt/ostream.h>		// needed for serialization of std::thread::thread_id via overloaded <<
 
-#include "vec3.h"
 #include "../main.h"
+#include "ray.h"
 
 static int amount_of_threads = std::thread::hardware_concurrency() - 1;
 std::vector<std::thread> threads(amount_of_threads);
 
+bool hit_sphere(const vec3& center, float radius, const ray& r) {
+	vec3 A_minus_center = r.origin() - center;
+	float quadratic_a = dot(r.direction(), r.direction());
+	float quadratic_b = 2.0 * dot(r.direction(), r.origin() - center);
+	float quadratic_c = dot(A_minus_center,A_minus_center) - radius*radius;
+	float discriminant = quadratic_b*quadratic_b - 4 * quadratic_a * quadratic_c;
+	return (discriminant > 0);
+}
+
+vec3 color (const ray& r) {
+	if (hit_sphere(vec3(0,0,-1), 0.5, r)) return vec3(0.5,0.5,0.5);
+	vec3 unit_direction = unit_vector(r.direction());
+	float t = 0.5 * (unit_direction.y() + 1.0f);
+	return (1.0-t)*vec3(1.0, 1.0, 1.0) + t*vec3(0.5,0.7,1.0);
+}
+
 //renders chunk of image
 int render_chunk (sf::Uint8 *target_image, window_properties win_prop, int lower_bound, int upper_bound, int left_bound, int right_bound) {
+	vec3 origin(0.0, 0.0, 0.0);
+	vec3 lower_left_corner(-2.0, -1.0, -1.0);
+	vec3 horizon(4.0, 0.0, 0.0);
+	vec3 vertical(0.0, 2.0, 0.0);
 	for (int row = upper_bound-1; row >= lower_bound; row--) {
 		for (int column = left_bound; column < right_bound; column++) {
-			float r = float(column) / float(win_prop.width);
-			float g = float(row) / float(win_prop.height);
-			float b = (((column%win_prop.ratio_GCD < 2)||(row%win_prop.ratio_GCD < 2))&&(win_prop.ratio_GCD > 15)) ? 0.3f : 0.6f;
+			float u = float(column) / float(400); // camera FoV
+			float v = float(row) / float(200);  // camera vertical
+			ray r(origin, lower_left_corner + u*horizon + v*vertical);			
+			vec3 col = color(r);
+
 			int shift = 4*((win_prop.height-row-1)*win_prop.width+column);
-			target_image[shift+0] = int(255.99*r);
-			target_image[shift+1] = int(255.99*g);
-			target_image[shift+2] = int(255.99*b);
+			target_image[shift+0] = int(255.99*col[0]);
+			target_image[shift+1] = int(255.99*col[1]);
+			target_image[shift+2] = int(255.99*col[2]);
 			target_image[shift+3] = int(255.99);
 		} 
 	}

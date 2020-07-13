@@ -13,8 +13,8 @@ int main(int argc, char *argv[]) {
 
 	CLI::App app(APP_NAME);
 
-	app.add_option("-h,--height", win_prop.height, "The height of the output picture");
-	app.add_option("-w,--width", win_prop.width, "The width of the output picture");
+	app.add_option("-h,--height",     win_prop.height,     "The height of the output picture");
+	app.add_option("-w,--width",      win_prop.width,      "The width of the output picture");
 	app.add_flag  ("-f,--fullscreen", win_prop.fullscreen, "Force fullscreen");
 
 	CLI11_PARSE(app, argc, argv);
