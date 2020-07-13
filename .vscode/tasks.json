@@ -9,7 +9,7 @@
             "command": "echo ${workspaceFolder}"
         },
         {
-            "label": "Build main",
+            "label": "Build",
             "type": "shell",
 
             "windows":{
@@ -27,11 +27,22 @@
                 "command": "/usr/bin/g++",
                 "args": ["-g", "'${workspaceFolder}/main.cpp'", "-lsfml-graphics", "-lsfml-window", "-lsfml-system", "-DFMT_HEADER_ONLY", "-o", "'${workspaceFolder}/main'"]
             },
-
+            "problemMatcher": {
+                "owner": "cpp",
+                "fileLocation": ["relative", "${workspaceRoot}"],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            },
             "group": {"kind": "build", "isDefault": true}
         },
         {
-            "label": "Build main (release)",
+            "label": "Build (release)",
             "type": "shell",
 
             "windows":{
@@ -49,7 +60,18 @@
                 "command": "/usr/bin/g++",
                 "args": ["-g", "'${workspaceFolder}/main.cpp'", "-lsfml-graphics", "-lsfml-window", "-lsfml-system", "-DFMT_HEADER_ONLY", "-O3", "-o", "'${workspaceFolder}/main'"]
             },
-
+            "problemMatcher": {
+                "owner": "cpp",
+                "fileLocation": ["relative", "${workspaceRoot}"],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            },
             "group": "build"
         }
     ]

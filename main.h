@@ -16,6 +16,13 @@
     #define MAXFLOAT (FLT_MAX)
 #endif
 
-int spin_threads(sf::Uint8 *image);
-int join_threads();
-int render_chunk (sf::Uint8 *target_image, int lower_bound, int upper_bound, int left_bound, int right_bound);
+#ifndef MAIN_H
+#define MAIN_H
+class window_properties {
+public:
+    int width = 1280, height = 720;
+    int ratio_GCD = std::__gcd(width, height);
+    bool fullscreen = false;
+    int framerate_limiter = 120;
+};
+#endif
