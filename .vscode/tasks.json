@@ -25,7 +25,7 @@
             },
             "linux": {
                 "command": "/usr/bin/g++",
-                "args": ["-g", "'${workspaceFolder}/main.cpp'", "-lsfml-graphics", "-lsfml-window", "-lsfml-system", "-DFMT_HEADER_ONLY", "-o", "'${workspaceFolder}/main'"]
+                "args": ["-g", "'${workspaceFolder}/main.cpp'", "-std=c++11", "-lsfml-graphics", "-lsfml-window", "-lsfml-system", "-lfmt", "-lpthread", "-o", "'${workspaceFolder}/main'"]
             },
             "problemMatcher": {
                 "owner": "cpp",
@@ -58,7 +58,7 @@
             },
             "linux": {
                 "command": "/usr/bin/g++",
-                "args": ["-g", "'${workspaceFolder}/main.cpp'", "-lsfml-graphics", "-lsfml-window", "-lsfml-system", "-DFMT_HEADER_ONLY", "-O3", "-o", "'${workspaceFolder}/main'"]
+                "args": ["-g", "'${workspaceFolder}/main.cpp'", "-std=c++11", "-lsfml-graphics", "-lsfml-window", "-lsfml-system", "-lfmt", "-lpthread", "-O3", "-o", "'${workspaceFolder}/main'"]
             },
             "problemMatcher": {
                 "owner": "cpp",
