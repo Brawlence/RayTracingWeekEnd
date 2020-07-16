@@ -9,6 +9,9 @@
 
 static window_properties win_prop;
 
+static sf::Vector2i mouse_pos;
+static bool tracking = false;
+
 int main(int argc, char *argv[]) {
 
 	CLI::App app(APP_NAME);
@@ -61,6 +64,12 @@ int main(int argc, char *argv[]) {
 	text.setStyle(sf::Text::Bold | sf::Text::Regular);
 	text.setString("");
 
+	sf::CircleShape shape(20.f);
+	shape.setFillColor(sf::Color::Blue);
+	shape.setOutlineColor(sf::Color::White);
+	shape.setOutlineThickness(1);
+	shape.setPosition(50.f,50.f);
+
 	spin_threads(image, win_prop);
 
 	while (window.isOpen()) {
@@ -78,7 +87,8 @@ int main(int argc, char *argv[]) {
 						break;
 
 					case sf::Keyboard::Space:
-						text.setString("");
+						tracking = !tracking;
+						tracking?text.setString("On"):text.setString("Off");
 						break;
 
 					case sf::Keyboard::F:
@@ -91,6 +101,11 @@ int main(int argc, char *argv[]) {
 
 					default:
 						break;
+				};
+			} else if (event.type == sf::Event::MouseMoved) {
+				if (tracking) {
+					mouse_pos = sf::Mouse::getPosition(window);
+					shape.setPosition(mouse_pos.x - shape.getRadius(), mouse_pos.y - shape.getRadius());
 				};
 			} else if (event.type == sf::Event::Resized) {
 				win_prop.width = event.size.width;
@@ -111,7 +126,8 @@ int main(int argc, char *argv[]) {
 
 
 		window.clear();
-		window.draw(sprite);		
+		window.draw(sprite);	
+		window.draw(shape);	
 		window.draw(text);
 		window.display();
 	};
