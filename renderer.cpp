@@ -6,9 +6,10 @@
 #include <fmt/format.h>			
 #include <fmt/ostream.h>		// needed for serialization of std::thread::thread_id via overloaded <<
 
-#include "../main.h"
-#include "ray.h"
-#include "vec3.h"
+#include "main.h"
+#include "renderer.h"
+#include "RayTracer/ray.h"
+#include "RayTracer/vec3.h"
 
 static int amount_of_threads = std::thread::hardware_concurrency() - 1;
 std::vector<std::thread> threads(amount_of_threads);
@@ -26,7 +27,7 @@ float hit_sphere(const vec3& center, float radius, const ray& r) {
 	};
 }
 
-vec3 color (const ray& r) {
+vec3 color(const ray& r) {
 	vec3 sphere_center(0,0,-1);
 	float t = hit_sphere(sphere_center, 0.5, r);
 	if (t > 0.0) {
@@ -39,7 +40,7 @@ vec3 color (const ray& r) {
 }
 
 //renders chunk of image
-int render_chunk (sf::Uint8 *target_image, window_properties win_prop, int lower_bound, int upper_bound, int left_bound, int right_bound) {
+void render_chunk(sf::Uint8 *target_image, window_properties win_prop, int lower_bound, int upper_bound, int left_bound, int right_bound) {
 	vec3 origin(0.0, 0.0, 0.0);
 	vec3 lower_left_corner(-2.0, -1.0, -1.0);
 	vec3 horizon(4.0, 0.0, 0.0);
@@ -59,11 +60,10 @@ int render_chunk (sf::Uint8 *target_image, window_properties win_prop, int lower
 		} 
 	}
 	fmt::print("Thread with id '{}' has finished execution.\n", std::this_thread::get_id());
-	return EXIT_SUCCESS;
 };
 
 //starts threads 
-int spin_threads(sf::Uint8 *image, window_properties win_prop) {
+void spin_threads(sf::Uint8 *image, window_properties win_prop) {
 	for (int t = 0; t < threads.size(); ++t) { 
 		int lower_bound = t*win_prop.height/amount_of_threads;
 		int upper_bound = (t+1)==amount_of_threads ? win_prop.height : (t+1)*win_prop.height/amount_of_threads;
@@ -72,14 +72,12 @@ int spin_threads(sf::Uint8 *image, window_properties win_prop) {
 		threads[t] = std::thread(render_chunk, image, win_prop, lower_bound, upper_bound, left_bound, right_bound);
 		fmt::print("Thread {} has started execution with id '{}'.\n", t, threads[t].get_id());
 	};
-	return EXIT_SUCCESS;
 };
 
 //ends threads
-inline int join_threads() {
+void join_threads() {
 	for (int t = 0; t < amount_of_threads; ++t) {
 		threads[t].join();
 	};
 	fmt::print("Threads syncronized.\n");
-	return EXIT_SUCCESS;
 };

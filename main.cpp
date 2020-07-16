@@ -5,7 +5,7 @@
 #include <fmt/format.h>			// somewhy won't compile under mingw with linker flag -lfmt; so use in header-only mode with -DFMT_HEADER_ONLY
 
 #include "main.h"
-#include "RayTracer/renderer.h"
+#include "renderer.h"
 
 static window_properties win_prop;
 
@@ -28,38 +28,38 @@ int main(int argc, char *argv[]) {
 
 	//GL settings
 	sf::ContextSettings GLsettings;
-		GLsettings.depthBits = 24;
-		GLsettings.stencilBits = 8;
-		GLsettings.antialiasingLevel = 4;
-		GLsettings.majorVersion = 2;
-		GLsettings.minorVersion = 0;
+	GLsettings.depthBits = 24;
+	GLsettings.stencilBits = 8;
+	GLsettings.antialiasingLevel = 4;
+	GLsettings.majorVersion = 2;
+	GLsettings.minorVersion = 0;
 
 	//Create window
 	sf::RenderWindow window;
-		window.create(screenSize, APP_NAME, window_style, GLsettings);
-		window.setFramerateLimit(win_prop.framerate_limiter);
-		window.requestFocus();
+	window.create(screenSize, APP_NAME, window_style, GLsettings);
+	window.setFramerateLimit(win_prop.framerate_limiter);
+	window.requestFocus();
 
 	sf::Vector2u window_size = window.getSize();
 
 	sf::Texture texture;
-		if (!texture.create(win_prop.width, win_prop.height)) return EXIT_FAILURE;
+	if (!texture.create(win_prop.width, win_prop.height)) return EXIT_FAILURE;
 	sf::Sprite sprite(texture);
 
 	sf::Uint8* image = new sf::Uint8[win_prop.height * win_prop.width * 4];
 
 	sf::Font font1, font2;
-		if (!font1.loadFromFile("./Fonts/L.ttf")) return EXIT_FAILURE;		
-		if (!font2.loadFromFile("./Fonts/CG.ttf")) return EXIT_FAILURE;
+	if (!font1.loadFromFile("./Fonts/L.ttf")) return EXIT_FAILURE;		
+	if (!font2.loadFromFile("./Fonts/CG.ttf")) return EXIT_FAILURE;
 
 	sf::Text text;
-		text.setFont(font1);
-		text.setCharacterSize(24);
-		text.setFillColor(sf::Color::White);
-		text.setOutlineThickness(1);
-		text.setOutlineColor(sf::Color::Black);
-		text.setStyle(sf::Text::Bold | sf::Text::Regular);
-		text.setString("");
+	text.setFont(font1);
+	text.setCharacterSize(24);
+	text.setFillColor(sf::Color::White);
+	text.setOutlineThickness(1);
+	text.setOutlineColor(sf::Color::Black);
+	text.setStyle(sf::Text::Bold | sf::Text::Regular);
+	text.setString("");
 
 	spin_threads(image, win_prop);
 
@@ -118,5 +118,5 @@ int main(int argc, char *argv[]) {
 
 	join_threads();
 
-	return EXIT_SUCCESS;
+	return 0;
 }

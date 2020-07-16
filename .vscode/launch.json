@@ -44,11 +44,11 @@
             "windows":{
                 "miDebuggerPath": "C:/msys2/mingw64/bin/gdb.exe",
                 "program": "${workspaceFolder}/main.exe",
-                "args": ["-o", "keikaku.ppm", "-h", "100", "-w", "100"]
+                "args": ["-h", "480", "-w", "640"]
             },
             "linux":{"miDebuggerPath": "/usr/bin/gdb",                
                 "program": "${workspaceFolder}/main",
-                "args": ["-o", "keikaku.ppm", "-h", "100", "-w", "100"]
+                "args": ["-h", "480", "-w", "640"]
             },
             "setupCommands": [
                 {
