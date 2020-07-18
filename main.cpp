@@ -10,9 +10,9 @@
 static window_properties win_prop;
 
 static sf::Vector2i mouse_pos;
-static bool tracking = false;
+static bool tracking = false, initial_run = true;
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) { 
 
 	CLI::App app(APP_NAME);
 
@@ -70,6 +70,8 @@ int main(int argc, char *argv[]) {
 	shape.setOutlineThickness(1);
 	shape.setPosition(50.f,50.f);
 
+	sf::Vector2u temp = window.getSize();
+
 	spin_threads(image, win_prop);
 
 	while (window.isOpen()) {
@@ -84,6 +86,17 @@ int main(int argc, char *argv[]) {
 				{
 					case sf::Keyboard::Escape:
 						window.close();
+						break;
+					
+					case sf::Keyboard::C:
+						text.setString("");
+						break;
+					
+					case sf::Keyboard::F5:
+						
+						temp.x = temp.x / 2;
+						temp.y = temp.y / 2;
+						window.setSize(temp);
 						break;
 
 					case sf::Keyboard::Space:
@@ -108,17 +121,19 @@ int main(int argc, char *argv[]) {
 					shape.setPosition(mouse_pos.x - shape.getRadius(), mouse_pos.y - shape.getRadius());
 				};
 			} else if (event.type == sf::Event::Resized) {
-				win_prop.width = event.size.width;
-				win_prop.height = event.size.height;
-				win_prop.ratio_GCD = std::__gcd(win_prop.height, win_prop.width);
-				window.setView(sf::View(sf::FloatRect(0, 0, win_prop.width, win_prop.height)));
-				join_threads();
-				image = new sf::Uint8[win_prop.height * win_prop.width * 4];
+				if (!initial_run) {
+					win_prop.width = event.size.width;
+					win_prop.height = event.size.height;
+					win_prop.ratio_GCD = std::__gcd(win_prop.height, win_prop.width);
+					window.setView(sf::View(sf::FloatRect(0, 0, win_prop.width, win_prop.height)));
+					join_threads();
+					image = new sf::Uint8[win_prop.height * win_prop.width * 4];
 
-				spin_threads(image, win_prop);
-				
-				std::string message = fmt::format("Resolution: {}x{}, GCD: {}", win_prop.width, win_prop.height, win_prop.ratio_GCD);
-				text.setString(message);
+					spin_threads(image, win_prop);
+					
+					std::string message = fmt::format("Resolution: {}x{}, GCD: {}", win_prop.width, win_prop.height, win_prop.ratio_GCD);
+					text.setString(message);
+				}
 			}
 		};
 
@@ -130,6 +145,7 @@ int main(int argc, char *argv[]) {
 		window.draw(shape);	
 		window.draw(text);
 		window.display();
+		if (initial_run) initial_run = false;
 	};
 
 	join_threads();
