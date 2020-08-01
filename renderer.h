@@ -1,3 +1,6 @@
+#ifndef RENDERER_H
+#define RENDERER_H
+
 #include <SFML/Graphics.hpp>
 
 //renders chunk of image
@@ -8,3 +11,5 @@ void spin_threads(sf::Uint8 *image, window_properties win_prop);
 
 //ends threads
 void join_threads();
+
+#endif

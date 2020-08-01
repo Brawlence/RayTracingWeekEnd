@@ -14,18 +14,17 @@
 
             "windows":{
                 "options": {
-                    "cwd": "C:/msys2/mingw64/bin/",
-                    //"shell": {
-                    //      "executable": "C:/msys2/mingw64.exe",
-                    ////      "args": ["/d", "/c"]   // - windws CMD args, don't use for mingw64
-                    //},
+                    "cwd": "C:/msys2/mingw64/bin/"
                 },
                 "command": "g++.exe",
                 "args": ["-g", "\"${workspaceFolder}\\*.cpp\"", "-lsfml-graphics", "-lsfml-window", "-lsfml-system", "-DFMT_HEADER_ONLY", "-o", "\"${workspaceFolder}\\main.exe\""]
             },
             "linux": {
+                "options": {
+                    "cwd": "${workspaceFolder}"
+                },
                 "command": "/usr/bin/g++",
-                "args": ["-g", "'${workspaceFolder}/*.cpp'", "-std=c++11", "-lsfml-graphics", "-lsfml-window", "-lsfml-system", "-lfmt", "-lpthread", "-o", "'${workspaceFolder}/main'"]
+                "args": ["-g", "*.cpp", "-std=c++11", "-lsfml-graphics", "-lsfml-window", "-lsfml-system", "-lfmt", "-lpthread", "-o", "'${workspaceFolder}/main'"]
             },
             "problemMatcher": {
                 "owner": "cpp",
@@ -48,17 +47,16 @@
             "windows":{
                 "options": {
                     "cwd": "C:/msys2/mingw64/bin/",
-                    //"shell": {
-                    //      "executable": "C:/msys2/mingw64.exe",
-                    ////      "args": ["/d", "/c"]   // - windws CMD args, don't use for mingw64
-                    //},
                 },
                 "command": "g++.exe",
                 "args": ["-g", "\"${workspaceFolder}\\main.cpp\"", "-lsfml-graphics", "-lsfml-window", "-lsfml-system", "-DFMT_HEADER_ONLY", "-O3", "-o", "\"${workspaceFolder}\\main.exe\""]
             },
             "linux": {
+                "options": {
+                    "cwd": "${workspaceFolder}"
+                },
                 "command": "/usr/bin/g++",
-                "args": ["-g", "'${workspaceFolder}/main.cpp'", "-std=c++11", "-lsfml-graphics", "-lsfml-window", "-lsfml-system", "-lfmt", "-lpthread", "-O3", "-o", "'${workspaceFolder}/main'"]
+                "args": ["-g", "*.cpp", "-std=c++11", "-lsfml-graphics", "-lsfml-window", "-lsfml-system", "-lfmt", "-lpthread", "-O3", "-o", "'${workspaceFolder}/main'"]
             },
             "problemMatcher": {
                 "owner": "cpp",

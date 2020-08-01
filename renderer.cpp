@@ -30,11 +30,11 @@ float hit_sphere(const vec3& center, float radius, const ray& r) {
 vec3 color(const ray& r) {
 	vec3 sphere_center(0,0,-1);
 	float t = hit_sphere(sphere_center, 0.5, r);
-	if (t > 0.0) {
-		vec3 Normal = unit_vector(r.point_at_parameter(t) - sphere_center);
-		return 0.5 * vec3(Normal.x()+1, Normal.y()+1,Normal.z()+1);
+	if (t > 0.0) {															// if sphere is encountered
+		vec3 Normal = unit_vector(r.point_at_parameter(t) - sphere_center); // produce normal
+		return 0.5 * vec3(Normal.x()+1, Normal.y()+1,Normal.z()+1); 		// and color it accordingly 
 	}
-	vec3 unit_direction = unit_vector(r.direction());
+	vec3 unit_direction = unit_vector(r.direction()); // else, do the usual 'sky' blends
 	t = 0.5 * (unit_direction.y() + 1.0f);
 	return (1.0-t)*vec3(1.0, 1.0, 1.0) + t*vec3(0.5,0.7,1.0);
 }
@@ -43,14 +43,14 @@ vec3 color(const ray& r) {
 void render_chunk(sf::Uint8 *target_image, window_properties win_prop, int lower_bound, int upper_bound, int left_bound, int right_bound) {
 	vec3 origin(0.0, 0.0, 0.0);
 	vec3 lower_left_corner(-2.0, -1.0, -1.0);
-	vec3 horizon(4.0, 0.0, 0.0);
-	vec3 vertical(0.0, 2.0, 0.0);
+	vec3 span_width(4.0, 0.0, 0.0);
+	vec3 span_height(0.0, 2.0, 0.0);
 	for (int row = upper_bound-1; row >= lower_bound; row--) {
 		for (int column = left_bound; column < right_bound; column++) {
 			float u = float(column) / float(win_prop.width); // camera FoV
 			float v = float(row) / float(win_prop.height);  // camera vertical
-			ray r(origin, lower_left_corner + u*horizon + v*vertical);			
-			vec3 col = color(r);
+			ray r(origin, lower_left_corner + u*span_width + v*span_height);		
+			vec3 col = color(r); // what do we SEE at this point?
 
 			int shift = 4*((win_prop.height-row-1)*win_prop.width+column);
 			target_image[shift+0] = int(255.99*col[0]);
