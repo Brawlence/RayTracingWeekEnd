@@ -42,20 +42,21 @@ vec3 color(const ray& r) {
 //renders chunk of image
 void render_chunk(sf::Uint8 *target_image, window_properties win_prop, int lower_bound, int upper_bound, int left_bound, int right_bound) {
 	vec3 origin(0.0, 0.0, 0.0);
-	vec3 lower_left_corner(-2.0, -1.0, -1.0);
-	vec3 span_width(4.0, 0.0, 0.0);
-	vec3 span_height(0.0, 2.0, 0.0);
+	vec3 span_width(win_prop.width/200.0, 0.0, 0.0);
+	vec3 span_height(0.0, win_prop.height/200.0, 0.0);
+	vec3 lower_left_corner(-win_prop.width/400.0, -win_prop.height/400.0, -1.0);
+
 	for (int row = upper_bound-1; row >= lower_bound; row--) {
 		for (int column = left_bound; column < right_bound; column++) {
 			float u = float(column) / float(win_prop.width); // camera FoV
 			float v = float(row) / float(win_prop.height);  // camera vertical
 			ray r(origin, lower_left_corner + u*span_width + v*span_height);		
-			vec3 col = color(r); // what do we SEE at this point?
+			//vec3 col = color(r); // what do we SEE at this point?
 
 			int shift = 4*((win_prop.height-row-1)*win_prop.width+column);
-			target_image[shift+0] = int(255.99*col[0]);
-			target_image[shift+1] = int(255.99*col[1]);
-			target_image[shift+2] = int(255.99*col[2]);
+			target_image[shift+0] = int(255.99*color(r)[0]);
+			target_image[shift+1] = int(255.99*color(r)[1]);
+			target_image[shift+2] = int(255.99*color(r)[2]);
 			target_image[shift+3] = int(255.99);
 		} 
 	}

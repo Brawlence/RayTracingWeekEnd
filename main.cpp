@@ -81,6 +81,13 @@ int main(int argc, char *argv[]) {
 						text.setString("");
 						break;
 
+					case sf::Keyboard::F5:
+						join_threads();
+						
+						image = new sf::Uint8[win_prop.height * win_prop.width * 4];
+						spin_threads(image, win_prop);
+						break;
+
 					case sf::Keyboard::F:
 						if (&font1 == text.getFont()) {
 							text.setFont(font2);
@@ -97,11 +104,6 @@ int main(int argc, char *argv[]) {
 				win_prop.height = event.size.height;
 				win_prop.ratio_GCD = std::__gcd(win_prop.height, win_prop.width);
 				window.setView(sf::View(sf::FloatRect(0, 0, win_prop.width, win_prop.height)));
-				join_threads();
-				image = new sf::Uint8[win_prop.height * win_prop.width * 4];
-
-				spin_threads(image, win_prop);
-				
 				std::string message = fmt::format("Resolution: {}x{}, GCD: {}", win_prop.width, win_prop.height, win_prop.ratio_GCD);
 				text.setString(message);
 			}

@@ -8,7 +8,32 @@
             "name": "Debug main",
             "type": "cppdbg",
             "request": "launch",
-            "preLaunchTask": "Build main",
+            "preLaunchTask": "Build",
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "windows":{
+                "miDebuggerPath": "C:/msys2/mingw64/bin/gdb.exe",
+                "program": "${workspaceFolder}/main.exe",
+                "args": []
+            },
+            "linux":{"miDebuggerPath": "/usr/bin/gdb",                
+                "program": "${workspaceFolder}/main",
+                "args": []
+            },
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },{
+            "name": "Debug no build",
+            "type": "cppdbg",
+            "request": "launch",
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
